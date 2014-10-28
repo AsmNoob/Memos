@@ -32,7 +32,7 @@ Preserve a Working Configuration
 --------------------------------
 For a really good restoration option, it's recommended making regular backups of the Nginx configuration, how ... ?
 
-	Store the entire **/etc/nginx/** directory in a Git repository
+	Store the entire /etc/nginx/ directory in a Git repository
 
 Understanding Nginx Functioning
 -------------------------------
