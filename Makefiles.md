@@ -1,26 +1,26 @@
 Intro
 =====
-// Using http://gl.developpez.com/tutoriel/outil/makefile/
+[developpez.com](Using http://gl.developpez.com/tutoriel/outil/makefile/)
 
 Exemple minimal
 ---------------
 
-all: hello
+	all: hello
 
-hello: hello.o main.o
-	gcc -o hello hello.o main.o
+	hello: hello.o main.o
+		gcc -o hello hello.o main.o
 
-hello.o: hello.c
-	gcc -o hello.o -c hello.c -W -Wall -ansi -pedantic
+	hello.o: hello.c
+		gcc -o hello.o -c hello.c -W -Wall -ansi -pedantic
 
-main.o: main.c hello.h
-	gcc -o main.o -c main.c -W -Wall -ansi -pedantic
+	main.o: main.c hello.h
+		gcc -o main.o -c main.c -W -Wall -ansi -pedantic
 
-clean:
-	rm -rf *.o
+	clean:
+		rm -rf *.o
 
-mrpropre: clean
-	rm -rf hello
+	mrpropre: clean
+		rm -rf hello
 
 Commentaires:
 
