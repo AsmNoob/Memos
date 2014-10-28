@@ -68,6 +68,7 @@ Différentes variables:
 - $*: Nom du fichier sans suffixes
 
 Exemple de code:
+
 	all: $(EXEC)
 
 	hello: hello.o main.o
