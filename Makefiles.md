@@ -67,6 +67,7 @@ Différentes variables:
 - $?: Liste des dépendances plus récentes que la cible
 - $*: Nom du fichier sans suffixes
 
+Exemple de code:
 	all: $(EXEC)
 
 	hello: hello.o main.o
