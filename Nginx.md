@@ -8,10 +8,31 @@ All Nginx configuration files are located in the **/etc/nginx/** directory. The 
 Prerequisites
 -------------
 
+- **Install the Nginx server**
 
+	sudo apt-get install nginx
 
-Syntax
-------
+- **Run the server**
+
+	sudo service nginx start
+
+- **Testing it**
+
+	Point your browser to your IP address[YourIPAddress](http://whatismyipaddress.com/), it should confirm that nginx was successfully installed
+
+- **Check your VPS's IP address**
+	
+	ifconfig eth0 | grep inet | awk '{ print $2 }'
+
+- **Open up the default virtual host file with this command**
+
+	sudo nano /etc/nginx/sites-available/default
+
+Preserve a Working Configuration
+--------------------------------
+For a really good restoration option, it's recommended making regular backups of the Nginx configuration, how ... ?
+
+	Store the entire **/etc/nginx/** directory in a Git repository
 
 Understanding Nginx Functioning
 -------------------------------
