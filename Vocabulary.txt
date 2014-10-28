@@ -1,4 +1,0 @@
-Intro
-=====
-
-- Nginx: lightweight, high performance web server.
