@@ -148,9 +148,18 @@ While nginx is running, it can be controlled by invoking this command:
 where the *signal* might be:
 
 - **stop** — fast shutdown
-- **quit** — graceful shutdown (waits for the worker processors before shutting down)
+- **quit** — graceful shutdown
 - **reload** — reloading the configuration file
 - **reopen** — reopening the log files 
+
+Détail de chaque opération:
+	- nginx -s quit
+
+Used to stop nginx processes with waiting for the worker processes to finish serving current requests
+	
+
+
+
 
 Configuration file's structure
 ------------------------------
