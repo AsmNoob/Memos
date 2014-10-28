@@ -10,19 +10,19 @@ Prerequisites
 
 - **Install the Nginx server**
 
-	sudo apt-get install nginx
+		sudo apt-get install nginx
 
 - **Run the server**
 
-	sudo service nginx start
+		sudo service nginx start
 
 - **Testing it**
 
-	Point your browser to your IP address[YourIPAddress](http://whatismyipaddress.com/), it should confirm that nginx was successfully installed
+		Point your browser to your IP address[YourIPAddress](http://whatismyipaddress.com/), it should confirm that nginx was successfully installed
 
 - **Check your VPS's IP address**
 	
-	ifconfig eth0 | grep inet | awk '{ print $2 }'
+		ifconfig eth0 | grep inet | awk '{ print $2 }'
 
 - **Open up the default virtual host file with this command**
 
