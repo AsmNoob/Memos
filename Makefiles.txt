@@ -1,5 +1,6 @@
 Intro
 =====
+// Using http://gl.developpez.com/tutoriel/outil/makefile/
 
 Exemple minimal
 ---------------
