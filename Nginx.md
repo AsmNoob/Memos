@@ -16,9 +16,9 @@ Prerequisites
 
 		sudo service nginx start
 
-- **Testing it**
+- **Testing it** [YourIPAddress](http://whatismyipaddress.com/)
 
-		Point your browser to your IP address[YourIPAddress](http://whatismyipaddress.com/), it should confirm that nginx was successfully installed
+		Point your browser to your IP address, it should confirm that nginx was successfully installed
 
 - **Check your VPS's IP address**
 	
@@ -26,7 +26,7 @@ Prerequisites
 
 - **Open up the default virtual host file with this command**
 
-	sudo nano /etc/nginx/sites-available/default
+		sudo nano /etc/nginx/sites-available/default
 
 Preserve a Working Configuration
 --------------------------------
@@ -34,8 +34,89 @@ For a really good restoration option, it's recommended making regular backups of
 
 	Store the entire /etc/nginx/ directory in a Git repository
 
-Understanding Nginx Functioning
--------------------------------
+Introduction to Nginx Syntax
+----------------------------
+
+Taking an excerpts of a nginx.conf file, to analyse the different elements:
+	
+File excerpt: **/etc/nginx/nginx.conf**:
+
+	user www-data;
+	worker_processes 4;
+	pid /run/nginx.pid;
+
+	events {
+	        worker_connections 768;
+	        # multi_accept on;
+	}
+
+- & or # are comments balises
+- Settings syntax: **variable** **arguments**(separated by spaces) **;** 
+- Some settings have arguments that are themselves settings with arguments, we use the  **{ }** to deal with those.
+
+Understanding Nginx Functioning(Nginx.config)
+---------------------------------------------
+
+###Core Directives of Nginx###
+
+	user www-data;
+	worker_processes 4;
+	pid /run/nginx.pid;
+
+	events {
+	        worker_connections 768;
+	        # multi_accept on;
+	}
+
+**user**
+Defines which Linux system user will own and run the Nginx server.
+
+**worker_process**
+Defines how many threads, or simultaneous instances, of Nginx to run.
+
+**pid**
+Defines where Nginx will write its master process ID, or PID. The PID is used by the operating system to keep track of and send signals to the Nginx process.
+
+
+###HTTP 5Universal Config)###
+
+####Handeling webtraffic####
+
+File excerpt: **/etc/nginx/nginx.conf**
+
+	http {
+
+	    ##
+	    # Basic Settings
+	    ##
+
+	    sendfile on;
+	    tcp_nopush on;
+	    tcp_nodelay on;
+	    keepalive_timeout 65;
+	    types_hash_max_size 2048;
+	    # server_tokens off;
+
+	    # server_names_hash_bucket_size 64;
+	    # server_name_in_redirect off;
+
+	    include /etc/nginx/mime.types;
+	    default_type application/octet-stream;
+
+	    ##
+	    # Logging Settings
+	    ##
+
+	    access_log /var/log/nginx/access.log;
+	    error_log /var/log/nginx/error.log;
+
+	    ##
+	    # Gzip Settings
+	    ##
+
+	    gzip on;
+	    gzip_disable "msie6";
+
 
 Initial Setup
 -------------
