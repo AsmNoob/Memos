@@ -50,8 +50,8 @@ File excerpt: **/etc/nginx/nginx.conf**:
 	        # multi_accept on;
 	}
 
-- & or # are comments balises
-- Settings syntax: **variable** **arguments**(separated by spaces) **;** 
+- **&** or **#** are comments balises
+- **Settings syntax**: $variable $arguments (separated by spaces), don't forget the coma's.s
 - Some settings have arguments that are themselves settings with arguments, we use the  **{ }** to deal with those.
 
 Understanding Nginx Functioning(Nginx.config)
@@ -68,13 +68,16 @@ Understanding Nginx Functioning(Nginx.config)
 	        # multi_accept on;
 	}
 
-**user**
+**user**:
+
 Defines which Linux system user will own and run the Nginx server.
 
-**worker_process**
+**worker_process**:
+
 Defines how many threads, or simultaneous instances, of Nginx to run.
 
-**pid**
+**pid**:
+
 Defines where Nginx will write its master process ID, or PID. The PID is used by the operating system to keep track of and send signals to the Nginx process.
 
 
