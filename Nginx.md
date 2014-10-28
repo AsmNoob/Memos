@@ -28,6 +28,11 @@ Prerequisites
 
 		sudo nano /etc/nginx/sites-available/default
 
+- **Creating Symlinks if managing many sites**
+
+		ln -s /etc/nginx/sites-available/dotcom /etc/nginx/sites-enabled/dotcom
+
+
 Preserve a Working Configuration
 --------------------------------
 For a really good restoration option, it's recommended making regular backups of the Nginx configuration, how ... ?
@@ -51,7 +56,7 @@ File excerpt: **/etc/nginx/nginx.conf**:
 	}
 
 - **&** or **#** are comments balises
-- **Settings syntax**: $variable $arguments (separated by spaces), don't forget the coma's.s
+- **Settings syntax**: Variable Arguments (separated by spaces).
 - Some settings have arguments that are themselves settings with arguments, we use the  **{ }** to deal with those.
 
 Understanding Nginx Functioning(Nginx.config)
@@ -69,19 +74,16 @@ Understanding Nginx Functioning(Nginx.config)
 	}
 
 **user**:
-
 Defines which Linux system user will own and run the Nginx server.
 
 **worker_process**:
-
 Defines how many threads, or simultaneous instances, of Nginx to run.
 
 **pid**:
-
 Defines where Nginx will write its master process ID, or PID. The PID is used by the operating system to keep track of and send signals to the Nginx process.
 
 
-###HTTP 5Universal Config)###
+###HTTP (5Universal Config)###
 
 ####Handeling webtraffic####
 
@@ -120,18 +122,35 @@ File excerpt: **/etc/nginx/nginx.conf**
 	    gzip on;
 	    gzip_disable "msie6";
 
+	    ##
+	    # Many more configuration directives
+	    ##
 
-Initial Setup
--------------
+	}
 
-Nginx Location
---------------
+**Include**:
+The include statement at the beginning of this section includes the file mime.types located at /opt/nginx/conf/mime.types. What this means is that anything written in the file mime.types is interpreted as if it was written inside the http { } block. That way you can include a lot of information without cluttering the main configuration.
 
-Configuring a static server (lvl 1)
------------------------------------
+You can include all the files in a directory using this directive:
+
+	include /etc/nginx/sites-enabled/*;
+
+**Gzip**:
+The gzip directive tells the server to use on-the-fly gzip compression to limit the amount of bandwidth used and speed up some transfers.
 
 Operation on Nginx configuration
 --------------------------------
+###Starting, Stopping, and Reloading Configuration###
+
+While nginx is running, it can be controlled by invoking this command:
+	nginx -s signal
+
+where the *signal* might be:
+
+- **stop** — fast shutdown
+- **quit** — graceful shutdown (waits for the worker processors before shutting down)
+- **reload** — reloading the configuration file
+- **reopen** — reopening the log files 
 
 Configuration file's structure
 ------------------------------
