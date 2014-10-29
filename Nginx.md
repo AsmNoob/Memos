@@ -292,7 +292,31 @@ More information
 ----------------
 
 ###Server###
+The HTTP block of the nginx.conf file contains the statement include /etc/nginx/sites-enabled/*;. This allows for server block configurations to be loaded in from separate files found in the sites-enabled sub-directory. Usually these are symlinks to files stored in /etc/nginx/sites-available/. By using symlinks you can quickly enable or disable a virtual server while preserving its configuration file. Nginx provides a single default virtual host file, which can be used as a template to create virtual host files for other domains:
+
+	cp /etc/nginx/sites-available/default /etc/nginx/sites-available/example.com
+
 ####Basic Server block####
+
+	server {
+	        listen 80 default_server;
+	        listen [::]:80 default_server ipv6only=on;
+
+	        root /usr/share/nginx/html;
+	        index index.html index.htm;
+
+	        # Make site accessible from http://localhost/
+	        server_name localhost;
+
+	        location / {
+	                # First attempt to serve request as file, then
+	                # as directory, then fall back to displaying a 404.
+	                try_files $uri $uri/ /index.html;
+	                # Uncomment to enable naxsi on this location
+	                # include /etc/nginx/naxsi.rules
+	}
+
+
 ####Ports####
 ####Name-based virtual hosting####
 ####Access logs####
