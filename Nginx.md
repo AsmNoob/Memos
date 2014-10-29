@@ -172,9 +172,9 @@ Configuring static server
 
 An important web server task is serving out files, files will be served from different local directories: /data/www (which may contain HTML files) and /data/images (containing images). This will require editing of the configuration file and setting up of a server block inside the http block with two location blocks. 
 
-1 - First, create the /data/www directory and put an index.html file with any text content into it and create the /data/images directory and place some images in it. 
+1. First, create the /data/www directory and put an index.html file with any text content into it and create the /data/images directory and place some images in it. 
 
-2 - Open the configuration file and add a server bloc:
+2. Open the configuration file and add a server bloc:
 	
 	http {
     	server {
@@ -182,7 +182,7 @@ An important web server task is serving out files, files will be served from dif
 	}
 The configuration file may have several server blocs depending on the different bloc they listen to.
 
-3 - Add the following location block to the server block: 
+3. Add the following location block to the server block: 
 
 	location / {
     	root /data/www;
@@ -190,7 +190,7 @@ The configuration file may have several server blocs depending on the different 
 
 This location block specifies the “/” prefix compared with the URI from the request. For matching requests, the URI will be added to the path specified in the root directive, that is, to /data/www, to form the path to the requested file on the local file system. If there are several matching location blocks nginx selects the one with the longest prefix. The location block above provides the shortest prefix, of length one, and so only if all other location blocks fail to provide a match, this block will be used.
 
-4 - Add the second location block: 
+4. Add the second location block: 
 
 	location /images/ {
 	    root /data;
@@ -200,7 +200,7 @@ It will be a match for requests starting with /images/ (location / also matches 
 
 This is already a working configuration of a server that listens on the standard port 80 and is accessible on the local machine at http://localhost/.
 
-5 - To apply the new configuration, start nginx if it is not yet started or send the reload signal to the nginx’s master process, by executing: 
+5. To apply the new configuration, start nginx if it is not yet started or send the reload signal to the nginx’s master process, by executing: 
 
 	nginx -s reload
 
@@ -214,7 +214,7 @@ Setting up a Proxy Server
 
 One of the frequent uses of nginx is setting it up as a proxy server, which means a server that receives requests, passes them to the proxied servers, retrieves responses from them, and sends them to the clients.
 
-1 -  First, define the proxied server by adding one more server block to the nginx’s configuration file with the following contents:
+1. First, define the proxied server by adding one more server block to the nginx’s configuration file with the following contents:
 
 	server {
 	    listen 8080;
@@ -226,7 +226,7 @@ One of the frequent uses of nginx is setting it up as a proxy server, which mean
 
 This will be a simple server that listens on the port 8080 (previously, the listen directive has not been specified since the standard port 80 was used) and maps all requests to the /data/up1 directory on the local file system. Create this directory and put the index.html file into it. Note that the root directive is placed in the server context. Such root directive is used when the location block selected for serving a request does not include own root directive. 
 
-2 - use the server configuration from the previous section and modify it to make it a proxy server configuration. In the first location block, put the proxy_pass directive with the protocol, name and port of the proxied server specified in the parameter (in our case, it is http://localhost:8080): 
+2. use the server configuration from the previous section and modify it to make it a proxy server configuration. In the first location block, put the proxy_pass directive with the protocol, name and port of the proxied server specified in the parameter (in our case, it is http://localhost:8080): 
 
 	server {
 	    location / {
@@ -238,7 +238,7 @@ This will be a simple server that listens on the port 8080 (previously, the list
 	    }
 	}
 
-3 -  We will modify the second location block, which currently maps requests with the /images/ prefix to the files under the /data/images directory, to make it match the requests of images with typical file extensions. The modified location block looks like this: 
+3.  We will modify the second location block, which currently maps requests with the /images/ prefix to the files under the /data/images directory, to make it match the requests of images with typical file extensions. The modified location block looks like this: 
 
 	location ~ \.(gif|jpg|png)$ {
 	    root /data/images;
@@ -249,7 +249,7 @@ The parameter is a regular expression matching all URIs ending with .gif, .jpg, 
 **IMPORTANT**
  When nginx selects a location block to serve a request it first checks location directives that specify prefixes, remembering location with the longest prefix, and then checks regular expressions. If there is a match with a regular expression, nginx picks this location or, otherwise, it picks the one remembered earlier. 
 
- 4 - The resulting configuration of a proxy server will look like this: 
+ 4. The resulting configuration of a proxy server will look like this: 
 
 	server {
 	    location / {
