@@ -315,7 +315,8 @@ The HTTP block of the nginx.conf file contains the statement include /etc/nginx/
 						try_files $uri $uri/ /index.html;
 						# Uncomment to enable naxsi on this location
 						# include /etc/nginx/naxsi.rules
-		}
+		}=====================
+
 
 The server block is where the typical Nginx user will make most of his or her changes to the default configuration. Generally, you’ll want to make a separate file with its own server block for each virtual domain on your server. More configuration options for the server block are shown in the following sections.
 
@@ -326,8 +327,6 @@ The listen directive, which is located in the server block, tells Nginx the host
 #####Common examples for the listen directive:#####
 
 1. **These are the default listen statements in the default virtual host file. The argument default_server means this virtual host will answer requests on port 80 that don’t specifically match another virtual host’s listen statement. The second statement listens over IPv6 and behaves in the same way.**
-
-File excerpt: **/etc/nginx/sites-available/default**
 
 		listen 80 default_server;
 		listen [::]:80 default_server ipv6only=on;
