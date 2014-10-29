@@ -1,9 +1,9 @@
 Introduction to Nginx
 =====================
 
-Nginx is a lightweight, high performance web server designed to deliver large amounts of static content quickly with efficient use of system resources. Nginx’s strong point is its ability to efficiently serve static content, like plain HTML and media files. Some consider it a less than ideal server for dynamic content.
+*Nginx is a lightweight, high performance web server designed to deliver large amounts of static content quickly with efficient use of system resources. Nginx’s strong point is its ability to efficiently serve static content, like plain HTML and media files. Some consider it a less than ideal server for dynamic content.*
 
-All Nginx configuration files are located in the **/etc/nginx/** directory. The primary configuration file is **/etc/nginx/nginx.conf.**
+**Note**:All Nginx configuration files are located in the **/etc/nginx/** directory. The primary configuration file is **/etc/nginx/nginx.conf.**
 
 Prerequisites
 -------------
@@ -315,7 +315,7 @@ The HTTP block of the nginx.conf file contains the statement include /etc/nginx/
 						try_files $uri $uri/ /index.html;
 						# Uncomment to enable naxsi on this location
 						# include /etc/nginx/naxsi.rules
-		}=====================
+		}
 
 
 The server block is where the typical Nginx user will make most of his or her changes to the default configuration. Generally, you’ll want to make a separate file with its own server block for each virtual domain on your server. More configuration options for the server block are shown in the following sections.
@@ -363,8 +363,56 @@ The listen directive, which is located in the server block, tells Nginx the host
 
 ####Name-based virtual hosting####
 
+*The server_name directive, which is located in the server block, lets the administrator provide name-based virtual hosting. This allows multiple domains to be served from a single IP address. The server decides which domain to serve based on the request header it receives (for example, when someone requests a particular URL).*
+
+**Note**:Typically, you will want to create one file per domain you want to host on your server. Each file should have its own server block, and the server_name directive is where you specify which domain this file affects.
+
+#####Common examples for the server_name directive:#####
+
+1. **This example directs Nginx to process requests for example.com. This is the most basic configuration.**
+
+		server_name   example.com;
+
+2. **The second example instructs the server to process requests for both example.com and www.example.com.**
+
+		server_name   example.com www.example.com;
+
+3. **These two examples are equivalent. *.example.com and .example.com both instruct the server to process requests for all subdomains of example.com, including www.example.com, foo.example.com, etc.**
+
+		server_name   *.example.com;
+		server_name   .example.com;
+
+4. **The fourth example instructs the server to process requests for all domain names beginning with example., including example.com, example.org, example.net, example.foo.com, etc.**
+
+		server_name   example.*;
+
+5. **The fifth example instructs the server to process requests for three different domain names. Note that any combination of domain names can be listed in a single server_name directive.**
+
+		server_name   example.com isatio.com icann.org;
+
+6. **Finally, if you set server_name to the empty quote set (”“), Nginx will process all requests that either do not have a hostname, or that have an unspecified hostname, such as requests for the IP address itself.**
+
+		server_name   "";
+
 
 ####Access logs####
+
+*The access_log directive can be set in the http block in nginx.conf or in the server block for a specific virtual domain. It sets the location of the Nginx access log. By defining the access log to a different path in each server block, you can sort the output specific to each virtual domain into its own file. An access_log directive defined in the http block can be used to log all access to a single file, or as a catch-all for access to virtual hosts that don’t define their own log files.*
+
+#####Common examples for the access_log directive:#####
+
+1. **You can use a path relative to the current directory:** */etc/nginx/nginx.conf*
+
+		access_log logs/example.access.log;
+
+2. **You can use a full path:** */etc/nginx/sites-available/example.com*
+
+		access_log /srv/www/example.com/logs/access.log;
+
+3. **You can also disable the access log, although this is not recommended:** */etc/nginx/nginx.conf*
+
+		access_log off;
+
 ####Location####
 ####Location Root and Index####
 ####Best practice####
