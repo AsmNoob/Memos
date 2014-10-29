@@ -156,15 +156,15 @@ where the *signal* might be:
 
 - The operation used to stop nginx processes with waiting for the worker processes to finish serving current requests:
 	
-	nginx -s quit
+		nginx -s quit
 
 - The operation reloading the nginx configuration to apply new changes:
 
-	nginx -s reload
+		nginx -s reload
 
 - The list of all nginx processes:
 
-	ps -ax | grep nginx
+		ps -ax | grep nginx
 
 
 Configuring static server
