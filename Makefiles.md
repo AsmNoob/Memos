@@ -1,5 +1,5 @@
-Intro
-=====
+Introduction to Makefiles
+=========================
 [www.developpez.com](http://gl.developpez.com/tutoriel/outil/makefile/)
 
 Exemple minimal

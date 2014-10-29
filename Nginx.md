@@ -1,5 +1,5 @@
-Intro
-=====
+Introduction to Nginx
+=====================
 
 Nginx is a lightweight, high performance web server designed to deliver large amounts of static content quickly with efficient use of system resources. Nginx’s strong point is its ability to efficiently serve static content, like plain HTML and media files. Some consider it a less than ideal server for dynamic content.
 
