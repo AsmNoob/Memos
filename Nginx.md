@@ -152,17 +152,26 @@ where the *signal* might be:
 - **reload** — reloading the configuration file
 - **reopen** — reopening the log files 
 
-Détail de chaque opération:
-	- nginx -s quit
+####Détail de chaque opération:####
 
-Used to stop nginx processes with waiting for the worker processes to finish serving current requests
+- The operation used to stop nginx processes with waiting for the worker processes to finish serving current requests
 	
+	nginx -s quit
 
+- The operation reloading the nginx configuration to apply new changes 
 
+	nginx -s reload
+
+- The list of all nginx processes
+
+	ps -ax | grep nginx
 
 
 Configuration file's structure
 ------------------------------
+
+
+
 
 Configuring static server (lvl 2)
 ---------------------------------
