@@ -154,15 +154,15 @@ where the *signal* might be:
 
 ####Détail de chaque opération:####
 
-- The operation used to stop nginx processes with waiting for the worker processes to finish serving current requests
+- The operation used to stop nginx processes with waiting for the worker processes to finish serving current requests:
 	
 	nginx -s quit
 
-- The operation reloading the nginx configuration to apply new changes 
+- The operation reloading the nginx configuration to apply new changes:
 
 	nginx -s reload
 
-- The list of all nginx processes
+- The list of all nginx processes:
 
 	ps -ax | grep nginx
 
@@ -287,3 +287,15 @@ The most basic nginx configuration to work with a FastCGI server includes using 
 	}
 
 This will set up a server that will route all requests except for requests for static images to the proxied server operating on localhost:9000 through the FastCGI protocol. 
+
+More information
+----------------
+
+###Server###
+####Basic Server block####
+####Ports####
+####Name-based virtual hosting####
+####Access logs####
+####Location####
+####Location Root and Index####
+####Best practice####
