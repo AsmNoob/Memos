@@ -51,8 +51,8 @@ File excerpt: **/etc/nginx/nginx.conf**:
 	pid /run/nginx.pid;
 
 	events {
-	        worker_connections 768;
-	        # multi_accept on;
+			worker_connections 768;
+			# multi_accept on;
 	}
 
 - **&** or **#** are comments balises
@@ -69,8 +69,8 @@ Understanding Nginx Functioning(Nginx.config)
 	pid /run/nginx.pid;
 
 	events {
-	        worker_connections 768;
-	        # multi_accept on;
+			worker_connections 768;
+			# multi_accept on;
 	}
 
 **user**:
@@ -91,40 +91,40 @@ File excerpt: **/etc/nginx/nginx.conf**
 
 	http {
 
-	    ##
-	    # Basic Settings
-	    ##
+		##
+		# Basic Settings
+		##
 
-	    sendfile on;
-	    tcp_nopush on;
-	    tcp_nodelay on;
-	    keepalive_timeout 65;
-	    types_hash_max_size 2048;
-	    # server_tokens off;
+		sendfile on;
+		tcp_nopush on;
+		tcp_nodelay on;
+		keepalive_timeout 65;
+		types_hash_max_size 2048;
+		# server_tokens off;
 
-	    # server_names_hash_bucket_size 64;
-	    # server_name_in_redirect off;
+		# server_names_hash_bucket_size 64;
+		# server_name_in_redirect off;
 
-	    include /etc/nginx/mime.types;
-	    default_type application/octet-stream;
+		include /etc/nginx/mime.types;
+		default_type application/octet-stream;
 
-	    ##
-	    # Logging Settings
-	    ##
+		##
+		# Logging Settings
+		##
 
-	    access_log /var/log/nginx/access.log;
-	    error_log /var/log/nginx/error.log;
+		access_log /var/log/nginx/access.log;
+		error_log /var/log/nginx/error.log;
 
-	    ##
-	    # Gzip Settings
-	    ##
+		##
+		# Gzip Settings
+		##
 
-	    gzip on;
-	    gzip_disable "msie6";
+		gzip on;
+		gzip_disable "msie6";
 
-	    ##
-	    # Many more configuration directives
-	    ##
+		##
+		# Many more configuration directives
+		##
 
 	}
 
@@ -172,76 +172,77 @@ Configuring static server
 
 An important web server task is serving out files, files will be served from different local directories: /data/www (which may contain HTML files) and /data/images (containing images). This will require editing of the configuration file and setting up of a server block inside the http block with two location blocks. 
 
-1. First, create the /data/www directory and put an index.html file with any text content into it and create the /data/images directory and place some images in it. 
+1. *First, create the /data/www directory and put an index.html file with any text content into it and create the /data/images directory and place some images in it.*
 
-2. Open the configuration file and add a server bloc:
+2. *Open the configuration file and add a server bloc:*
 	
-	http {
-    	server {
-    	}
-	}
+		http {
+			server {
+			}
+		}
+
 The configuration file may have several server blocs depending on the different bloc they listen to.
 
-3. Add the following location block to the server block: 
+3. *Add the following location block to the server block:*
 
-	location / {
-    	root /data/www;
-	}
+		location / {
+			root /data/www;
+		}
 
 This location block specifies the “/” prefix compared with the URI from the request. For matching requests, the URI will be added to the path specified in the root directive, that is, to /data/www, to form the path to the requested file on the local file system. If there are several matching location blocks nginx selects the one with the longest prefix. The location block above provides the shortest prefix, of length one, and so only if all other location blocks fail to provide a match, this block will be used.
 
-4. Add the second location block: 
+4. *Add the second location block:*
 
-	location /images/ {
-	    root /data;
-	}
+		location /images/ {
+			root /data;
+		}
 
 It will be a match for requests starting with /images/ (location / also matches such requests, but has shorter prefix). 
 
 This is already a working configuration of a server that listens on the standard port 80 and is accessible on the local machine at http://localhost/.
 
-5. To apply the new configuration, start nginx if it is not yet started or send the reload signal to the nginx’s master process, by executing: 
+5. *To apply the new configuration, start nginx if it is not yet started or send the reload signal to the nginx’s master process, by executing:*
 
-	nginx -s reload
+		nginx -s reload
 
 
 **IMPORTANT**:
 
- 	In case something does not work as expected, you may try to find out the reason in access.log and error.log files in the directory /usr/local/nginx/logs or /var/log/nginx. 
+*In case something does not work as expected, you may try to find out the reason in access.log and error.log files in the directory /usr/local/nginx/logs or /var/log/nginx.*
 
 Setting up a Proxy Server
 -------------------------
 
 One of the frequent uses of nginx is setting it up as a proxy server, which means a server that receives requests, passes them to the proxied servers, retrieves responses from them, and sends them to the clients.
 
-1. First, define the proxied server by adding one more server block to the nginx’s configuration file with the following contents:
+1. *First, define the proxied server by adding one more server block to the nginx’s configuration file with the following contents:*
 
-	server {
-	    listen 8080;
-	    root /data/up1;
+		server {
+			listen 8080;
+			root /data/up1;
 
-	    location / {
-	    }
-	}
+			location / {
+			}
+		}
 
 This will be a simple server that listens on the port 8080 (previously, the listen directive has not been specified since the standard port 80 was used) and maps all requests to the /data/up1 directory on the local file system. Create this directory and put the index.html file into it. Note that the root directive is placed in the server context. Such root directive is used when the location block selected for serving a request does not include own root directive. 
 
 2. use the server configuration from the previous section and modify it to make it a proxy server configuration. In the first location block, put the proxy_pass directive with the protocol, name and port of the proxied server specified in the parameter (in our case, it is http://localhost:8080): 
 
 	server {
-	    location / {
-	        proxy_pass http://localhost:8080;
-	    }
+		location / {
+			proxy_pass http://localhost:8080;
+		}
 
-	    location /images/ {
-	        root /data;
-	    }
+		location /images/ {
+			root /data;
+		}
 	}
 
 3.  We will modify the second location block, which currently maps requests with the /images/ prefix to the files under the /data/images directory, to make it match the requests of images with typical file extensions. The modified location block looks like this: 
 
 	location ~ \.(gif|jpg|png)$ {
-	    root /data/images;
+		root /data/images;
 	}
 
 The parameter is a regular expression matching all URIs ending with .gif, .jpg, or .png. A regular expression should be preceded with ~. The corresponding requests will be mapped to the /data/images directory. 
@@ -252,13 +253,13 @@ The parameter is a regular expression matching all URIs ending with .gif, .jpg, 
  4. The resulting configuration of a proxy server will look like this: 
 
 	server {
-	    location / {
-	        proxy_pass http://localhost:8080/;
-	    }
+		location / {
+			proxy_pass http://localhost:8080/;
+		}
 
-	    location ~ \.(gif|jpg|png)$ {
-	        root /data/images;
-	    }
+		location ~ \.(gif|jpg|png)$ {
+			root /data/images;
+		}
 	}
 
 This server will filter requests ending with .gif, .jpg, or .png and map them to the /data/images directory (by adding URI to the root directive’s parameter) and pass all other requests to the proxied server configured above.
@@ -275,15 +276,15 @@ The most basic nginx configuration to work with a FastCGI server includes using 
 
 
 	server {
-	    location / {
-	        fastcgi_pass  localhost:9000;
-	        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-	        fastcgi_param QUERY_STRING    $query_string;
-	    }
+		location / {
+			fastcgi_pass  localhost:9000;
+			fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+			fastcgi_param QUERY_STRING    $query_string;
+		}
 
-	    location ~ \.(gif|jpg|png)$ {
-	        root /data/images;
-	    }
+		location ~ \.(gif|jpg|png)$ {
+			root /data/images;
+		}
 	}
 
 This will set up a server that will route all requests except for requests for static images to the proxied server operating on localhost:9000 through the FastCGI protocol. 
@@ -299,21 +300,21 @@ The HTTP block of the nginx.conf file contains the statement include /etc/nginx/
 ####Basic Server block####
 
 	server {
-	        listen 80 default_server;
-	        listen [::]:80 default_server ipv6only=on;
+			listen 80 default_server;
+			listen [::]:80 default_server ipv6only=on;
 
-	        root /usr/share/nginx/html;
-	        index index.html index.htm;
+			root /usr/share/nginx/html;
+			index index.html index.htm;
 
-	        # Make site accessible from http://localhost/
-	        server_name localhost;
+			# Make site accessible from http://localhost/
+			server_name localhost;
 
-	        location / {
-	                # First attempt to serve request as file, then
-	                # as directory, then fall back to displaying a 404.
-	                try_files $uri $uri/ /index.html;
-	                # Uncomment to enable naxsi on this location
-	                # include /etc/nginx/naxsi.rules
+			location / {
+					# First attempt to serve request as file, then
+					# as directory, then fall back to displaying a 404.
+					try_files $uri $uri/ /index.html;
+					# Uncomment to enable naxsi on this location
+					# include /etc/nginx/naxsi.rules
 	}
 
 
