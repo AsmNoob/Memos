@@ -317,9 +317,54 @@ The HTTP block of the nginx.conf file contains the statement include /etc/nginx/
 						# include /etc/nginx/naxsi.rules
 		}
 
+The server block is where the typical Nginx user will make most of his or her changes to the default configuration. Generally, you’ll want to make a separate file with its own server block for each virtual domain on your server. More configuration options for the server block are shown in the following sections.
 
 ####Ports####
+
+The listen directive, which is located in the server block, tells Nginx the hostname/IP and the TCP port where it should listen for HTTP connections. By default, Nginx will listen for HTTP connections on port 80.The listen directive, which is located in the server block, tells Nginx the hostname/IP and the TCP port where it should listen for HTTP connections. By default, Nginx will listen for HTTP connections on port 80.
+
+#####Common examples for the listen directive:#####
+
+1. **These are the default listen statements in the default virtual host file. The argument default_server means this virtual host will answer requests on port 80 that don’t specifically match another virtual host’s listen statement. The second statement listens over IPv6 and behaves in the same way.**
+
+File excerpt: **/etc/nginx/sites-available/default**
+
+		listen 80 default_server;
+		listen [::]:80 default_server ipv6only=on;
+
+
+2. **These two examples direct Nginx to listen on 127.0.0.1; that is, the local loopback interface. localhost is conventionally set as the hostname for 127.0.0.1 in /etc/hosts.**
+		
+		listen     127.0.0.1:80;
+		listen     localhost:80;
+
+3. **The third pair of examples also listen on localhost, but they listen for responses on port 8080 instead of port 80.**
+
+		listen     127.0.0.1:8080;
+		listen     localhost:8080;
+
+4. **The fourth pair of examples specify a server listening for requests on the IP address 192.168.3.105. The first listens on port 80 and the second on port 8080.**
+
+		listen     192.168.3.105:80;
+		listen     192.168.3.105:8080;
+
+5. **The fifth set of examples tell Nginx to listen on all domains and IP addresses on a specific port. listen 80; is equivalent to listen *:80;, and listen 8080; is equivalent to listen *:8080;.**
+
+		listen     80;
+		listen     *:80;
+		listen     8080;
+		listen     *:8080;
+
+6. **Finally, the last set of examples instruct the server to listen for requests on port 80 for the IP addresses 12.34.56.77, 12.34.56.78, and 12.34.56.79.**
+
+		listen     12.34.56.77:80;
+		listen     12.34.56.78:80;
+		listen     12.34.56.79:80;       
+
+
 ####Name-based virtual hosting####
+
+
 ####Access logs####
 ####Location####
 ####Location Root and Index####
