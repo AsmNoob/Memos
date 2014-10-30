@@ -520,3 +520,11 @@ Directives are processed in the following order:
 **Returns**: Nginx will use the FastCGI handler to execute the file located at /srv/www/example.com/public_html/squire/roster.pl and return the result.
 
 ####Best practice####
+
+- Where possible, put your configurations in separate files, not all in the main configuration file.
+
+- Make a separate configuration file for each of your domains. For example, an Nginx configuration file for example.com might be called /etc/nignx/sites-available/example.com as shown throughout this guide. It will contain a server block for that domain. The domain name is specified in the server_name variable.
+
+- Use include statements in the main nginx.conf configuration to include each server configuration file. These include statements go in the http { } block of the main configuration file
+
+- Name your files with a consistent pattern. Keeping your files well-organized and cleanly formatted will greatly reduce the burden of maintaining an Nginx server.
