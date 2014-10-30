@@ -293,7 +293,7 @@ More information
 ----------------
 
 ###Server###
-The HTTP block of the nginx.conf file contains the statement include /etc/nginx/sites-enabled/*;. This allows for server block configurations to be loaded in from separate files found in the sites-enabled sub-directory. Usually these are symlinks to files stored in /etc/nginx/sites-available/. By using symlinks you can quickly enable or disable a virtual server while preserving its configuration file. Nginx provides a single default virtual host file, which can be used as a template to create virtual host files for other domains:
+*The HTTP block of the nginx.conf file contains the statement include /etc/nginx/sites-enabled/*;. This allows for server block configurations to be loaded in from separate files found in the sites-enabled sub-directory. Usually these are symlinks to files stored in /etc/nginx/sites-available/. By using symlinks you can quickly enable or disable a virtual server while preserving its configuration file. Nginx provides a single default virtual host file, which can be used as a template to create virtual host files for other domains*:
 
 		cp /etc/nginx/sites-available/default /etc/nginx/sites-available/example.com
 
@@ -322,7 +322,7 @@ The server block is where the typical Nginx user will make most of his or her ch
 
 ####Ports####
 
-The listen directive, which is located in the server block, tells Nginx the hostname/IP and the TCP port where it should listen for HTTP connections. By default, Nginx will listen for HTTP connections on port 80.The listen directive, which is located in the server block, tells Nginx the hostname/IP and the TCP port where it should listen for HTTP connections. By default, Nginx will listen for HTTP connections on port 80.
+*The listen directive, which is located in the server block, tells Nginx the hostname/IP and the TCP port where it should listen for HTTP connections. By default, Nginx will listen for HTTP connections on port 80.The listen directive, which is located in the server block, tells Nginx the hostname/IP and the TCP port where it should listen for HTTP connections. By default, Nginx will listen for HTTP connections on port 80.*
 
 #####Common examples for the listen directive:#####
 
@@ -414,5 +414,8 @@ The listen directive, which is located in the server block, tells Nginx the host
 		access_log off;
 
 ####Location####
+
+
+
 ####Location Root and Index####
 ####Best practice####
