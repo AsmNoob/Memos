@@ -437,7 +437,7 @@ The server block is where the typical Nginx user will make most of his or her ch
 
 **Returns**: This is fulfilled by the location /planet/blog/ setting because it is more specific, even though location /planet/ also matches this request.
 
-*When a location directive is followed by a tilde (\~), Nginx performs a regular expression match. These matches are always case-sensitive. So, IndexPage.php would match the first example above, but indexpage.php would not. In the second example, the regular expression ^/BlogPlanet(/|index\.php)$ will match requests for /BlogPlanet/ and /BlogPlanet/index.php, but not /BlogPlanet, /blogplanet/, or /blogplanet/index.php. Nginx uses* [*Perl Compatible Regular Expressions*](http://perldoc.perl.org/perlre.html) *
+*When a location directive is followed by a tilde (\~), Nginx performs a regular expression match. These matches are always case-sensitive. So, IndexPage.php would match the first example above, but indexpage.php would not. In the second example, the regular expression ^/BlogPlanet(/|index\.php)$ will match requests for /BlogPlanet/ and /BlogPlanet/index.php, but not /BlogPlanet, /blogplanet/, or /blogplanet/index.php. Nginx uses* [*Perl Compatible Regular Expressions*](http://perldoc.perl.org/perlre.html) 
 
 		location ~ IndexPage\.php$ { }
 		location ~ ^/BlogPlanet(/|/index\.php)$ { }
@@ -464,4 +464,59 @@ Directives are processed in the following order:
 4. If no regular expressions match, the most specific literal string match is used.
 
 ####Location Root and Index####
+
+*Once Nginx has determined which location directive best matches a given request, the response to this request is determined by the contents of the associated location directive block. *
+
+#####Common examples for the location block instructions:#####
+
+*In, this example, the document root is located in the html/ directory. Given the default installation prefix for Nginx, the full path to this location is /etc/nginx/html/. If multiple files are specified for the index directive, Nginx will process the list in order and fulfill the request with the first file that exists. If index.html doesn’t exist in the relevant directory, then index.htm will be used. If neither exist, a 404 message will be sent.*
+
+		location / {
+		    root html;
+		    index index.html index.htm;
+		}
+
+**Request**: http://example.com/blog/includes/style.css
+
+**Returns**: Nginx will attempt to serve the file located at /etc/nginx/html/blog/includes/style.css
+
+*The index variable tells Nginx which file to serve if none is specified*
+
+**Request**: http://example.com
+
+**Returns**: Nginx will attempt to serve the file located at /etc/nginx/html/index.html.
+
+*Here’s a more complex example, showcasing a set of location directives taken approximately from the Nginx and Perl-FastCGI Guide for a server responding for the domain example.com:*
+
+		location / {
+		    root   /srv/www/example.com/public_html;
+		    index  index.html index.htm;
+		}
+
+		location ~ \.pl$ {
+		    gzip off;
+		    include /etc/nginx/fastcgi_params;
+		    fastcgi_pass unix:/var/run/fcgiwrap.socket;
+		    fastcgi_index index.pl;
+		    fastcgi_param SCRIPT_FILENAME /srv/www/www.example.com/public_html$fastcgi_script_name;
+		}
+
+*In this example, all requests for resources that end in a .pl extension are handled by the second location block, which specifies a fastcgi handler for these requests. Otherwise, Nginx uses the first location directive. Resources are located on the file system at /srv/www/example.com/public_html/. If no file name is specified in the request, Nginx will look for and provide the index.html or index.htm file. If no index files are found, the server will return a 404 error.*
+
+**Request**: http://example.com/
+
+**Returns**: /srv/www/example.com/public_html/index.html if it exists. If that file doesn’t exist, it will serve /srv/www/example.com/public_html/index.htm. If neither exists, Nginx returns a 404 error.
+
+**Request**: http://example.com/blog/
+
+**Returns**: /srv/www/example.com/public_html/blog/index.html if it exists. If that file doesn’t exist, it will serve /srv/www/example.com/public_html/blog/index.htm. If neither exists, Nginx returns a 404 error.
+
+**Request**: http://example.com/tasks.pl
+
+**Returns**: Nginx will use the FastCGI handler to execute the file located at /srv/www/example.com/public_html/tasks.pl and return the result.
+
+**Request**: http://example.com/squire/roster.pl
+
+**Returns**: Nginx will use the FastCGI handler to execute the file located at /srv/www/example.com/public_html/squire/roster.pl and return the result.
+
 ####Best practice####
