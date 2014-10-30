@@ -437,7 +437,7 @@ The server block is where the typical Nginx user will make most of his or her ch
 
 **Returns**: This is fulfilled by the location /planet/blog/ setting because it is more specific, even though location /planet/ also matches this request.
 
-*When a location directive is followed by a tilde (\~), Nginx performs a regular expression match. These matches are always case-sensitive. So, IndexPage.php would match the first example above, but indexpage.php would not. In the second example, the regular expression ^/BlogPlanet(/|index\.php)$ will match requests for /BlogPlanet/ and /BlogPlanet/index.php, but not /BlogPlanet, /blogplanet/, or /blogplanet/index.php. Nginx uses [Perl Compatible Regular Expressions](http://perldoc.perl.org/perlre.html) *
+*When a location directive is followed by a tilde (\~), Nginx performs a regular expression match. These matches are always case-sensitive. So, IndexPage.php would match the first example above, but indexpage.php would not. In the second example, the regular expression ^/BlogPlanet(/|index\.php)$ will match requests for /BlogPlanet/ and /BlogPlanet/index.php, but not /BlogPlanet, /blogplanet/, or /blogplanet/index.php. Nginx uses* [*Perl Compatible Regular Expressions*](http://perldoc.perl.org/perlre.html) *
 
 		location ~ IndexPage\.php$ { }
 		location ~ ^/BlogPlanet(/|/index\.php)$ { }
