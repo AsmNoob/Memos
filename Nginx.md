@@ -415,7 +415,53 @@ The server block is where the typical Nginx user will make most of his or her ch
 
 ####Location####
 
+*The location setting lets you configure how Nginx will respond to requests for resources within the server. Just like the server_name directive tells Nginx how to process requests for the domain, such as http://example.com, the location directive covers requests for specific files and folders.*
 
+#####Common examples for the location directive:#####
+
+*These first five examples are literal string matches, which match any part of an HTTP request that comes after the host segment. So, for example, if someone requests:*
+
+		location / { } 
+		location /images/ { } 
+		location /blog/ { } 
+		location /planet/ { } 
+		location /planet/blog/ { }
+
+**Request**: http://example.com/
+
+**Returns**: Assuming that there is a server_name entry for example.com, the location / directive will determine what happens with this request.
+
+**NOTE**:Nginx always fulfills request using the most specific match. So, for example:
+
+**Request**: http://example.com/planet/blog/ or http://example.com/planet/blog/about/
+
+**Returns**: This is fulfilled by the location /planet/blog/ setting because it is more specific, even though location /planet/ also matches this request.
+
+*When a location directive is followed by a tilde (\~), Nginx performs a regular expression match. These matches are always case-sensitive. So, IndexPage.php would match the first example above, but indexpage.php would not. In the second example, the regular expression ^/BlogPlanet(/|index\.php)$ will match requests for /BlogPlanet/ and /BlogPlanet/index.php, but not /BlogPlanet, /blogplanet/, or /blogplanet/index.php. Nginx uses [Perl Compatible Regular Expressions](http://perldoc.perl.org/perlre.html) *
+
+		location ~ IndexPage\.php$ { }
+		location ~ ^/BlogPlanet(/|/index\.php)$ { }
+
+*If you want matches to be case-insensitive, use a tilde with an asterisk (\~*). The examples above all specify how Nginx should process requests that end in a particular file extension. In the first example, any file ending in: .pl, .PL, .cgi, .CGI, .perl, .Perl, .prl, and .PrL (among others) will match the request.*
+
+		location ~* \.(pl|cgi|perl|prl)$ { }
+		location ~* \.(md|mdwn|txt|mkdn)$ { }
+
+*Adding a caret and tilde (\^\~) to your location directives tells Nginx, if it makes a match for a particular string, to stop searching for more specific matches and use the directives here instead. Other than that, these directives work like the literal string matches in the first group. So, even if there’s a more specific match later, if a request matches one of these directives, the settings here will be used. See below for more information about the order and priority of location directive processing.*
+
+		location ^~ /images/IndexPage/ { }
+		location ^~ /blog/BlogPlanet/ { }
+
+*Finally, if you add an equals sign (=) to the location setting, this forces an exact match with the path requested and then stops searching for more specific matches. For instance, the final example will match only http://example.com/, not http://example.com/index.html. Using exact matches can speed up request times slightly, which can be useful if you have some requests that are particularly popular.*
+
+		location = / { }
+
+Directives are processed in the following order:
+
+1. Exact string matches are processed first. If a match is found, Nginx stops searching and fulfills the request.
+2. Remaining literal string directives are processed next. If Nginx encounters a match where the \^\~ argument is used, it stops here and fulfills the request. Otherwise, Nginx continues to process location directives.
+3. All location directives with regular expressions (\~ and \~*) are processed. If a regular expression matches the request, Nginx stops searching and fulfills the request.
+4. If no regular expressions match, the most specific literal string match is used.
 
 ####Location Root and Index####
 ####Best practice####
