@@ -90,7 +90,31 @@ There are 3 different sections to this file:
 1. **TTL**: Indicates the time the other servers can keep in their cache the information coming from the main server (in seconds)
 
 2. **General Information**:
-	1. test
+	1. **Serial**: Everytime you modificate this file, you have to increment the variable to indicate the file has changed.
+	2. **Refresh**: Indicates after how long the slave servers have to refresh their cache.
+	3. **Retry**: Indicates after how long the slave servers will try to access the main server in case of failure.
+	4. **Expire**: Indicates after how long the slave servers will stop trying to access the main server.
+	5. **Negative Cache TTL**: Minimal living time of the registering cache of the other registering below this one.
 
 3. **Registering of the domain**
+
+		Domaine TTL  IN      Type      Valeur
+
+		@       10800 IN      A         214.21.17.22
+
+*Every line defines a new registering*:
+
+There are 5 informations needed for every registering:
+
+1.
+2.
+3.
+4.
+5.
+
+
+
+After all that, restart it to load the new changes:
+
+		sudo /etc/init.d/bind9 restart
 
