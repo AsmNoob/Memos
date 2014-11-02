@@ -77,7 +77,7 @@ This is a complex file, modify it with precaution:
 		                         604800 )              ; Negative Cache TTL
 		;
 
-		; domai, sub-domain registering and associated IP's adresses
+		; domai, sub-domain recording and associated IP's adresses
 		@       10800 IN      A         214.21.17.22
 		@       10800 IN      MX 10     aspmx.l.google.com. 
 		@       10800 IN      MX 20     aspmx.2.google.com. 
@@ -94,23 +94,29 @@ There are 3 different sections to this file:
 	2. **Refresh**: Indicates after how long the slave servers have to refresh their cache.
 	3. **Retry**: Indicates after how long the slave servers will try to access the main server in case of failure.
 	4. **Expire**: Indicates after how long the slave servers will stop trying to access the main server.
-	5. **Negative Cache TTL**: Minimal living time of the registering cache of the other registering below this one.
+	5. **Negative Cache TTL**: Minimal living time of the recording cache of the other recording below this one.
 
-3. **Registering of the domain**
+3. **Recording of the domain**
 
-		Domaine TTL  IN      Type      Valeur
+		Domain TTL  IN      Type      Value
 
 		@       10800 IN      A         214.21.17.22
 
-*Every line defines a new registering*:
+*Every line defines a new recording*:
 
-There are 5 informations needed for every registering:
+There are 5 informations needed for every recording:
 
-1.
-2.
-3.
-4.
-5.
+1. **Domain**: indicates the domain or sub-domain concerned ("@" : base domain = mywebsite.com, "www" = www.mywebsite.com)
+2. **TTL**: time to live for this recording, it means the other sub-domains will keep this recording in their cache for so long.
+3. **Class**: For internet it's always "IN"
+4. **Type of recording**:
+	1. **A**: Base type IPv4, it's used to established the bond between a domain and an IP address.
+	2. **AAAA**: Same as A type but for IPv6 addresses.
+	3. **CNAME**: Allows to create aliases for domain names(Use the FQDN).
+	4. **NS**: Delegation of the domain's management.
+	5. **MX**: Mail servers, for people sending mails to name@youwebsite.com. Usually there are 2 types used at least "MX10" and "MX20" so mails with different priorities are classified correctly and in case of server failure the mail service will still work.
+	6. **TXT**: Allows you to insert a String as an answer.
+5. **The value**: It's the address defining the recording, usually an IP address.
 
 
 
