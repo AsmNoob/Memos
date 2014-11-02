@@ -124,3 +124,118 @@ After all that, restart it to load the new changes:
 
 		sudo /etc/init.d/bind9 restart
 
+
+Don't forget the incrementation on **Serial** before doing so.
+
+
+Configure Virtual Hosting
+-------------------------
+
+###Create directories###
+
+		mkdir -p /srv/www/www.mywebsite.com/public_html
+		mkdir /srv/www/www.mywebsite.com/logs
+		chown -R www-data:www-data /srv/www/www.mywebsite.com
+
+###Socket configuration###
+
+You can choose to go with the Unix or the TCP configuration:
+
+File: **/etc/nginx/sites-available/www.mywebsite.com**
+
+		server {
+		    listen   80;
+		    server_name www.mywebsite.com mywebsite.com;
+		    access_log /srv/www/www.mywebsite.com/logs/access.log;
+		    error_log /srv/www/www.mywebsite.com/logs/error.log;
+		    root   /srv/www/www.mywebsite.com/public_html;
+
+		    location / {
+		        index  index.html index.htm;
+		    }
+
+		    location ~ \.pl$ {
+		        gzip off;
+		        include /etc/nginx/fastcgi_params;
+		        fastcgi_pass unix:/var/run/fcgiwrap.socket;
+		        fastcgi_index index.pl;
+		        fastcgi_param SCRIPT_FILENAME /srv/www/www.mywebsite.com/public_html$fastcgi_script_name;
+		    }
+		}
+
+File: **/etc/nginx/sites-available/www.mywebsite.com**
+
+		server {
+		    listen   80;
+		    server_name www.mywebsite.com mywebsite.com;
+		    access_log /srv/www/www.mywebsite.com/logs/access.log;
+		    error_log /srv/www/www.mywebsite.com/logs/error.log;
+		    root   /srv/www/www.mywebsite.com/public_html;
+
+		    location / {
+		        index  index.html index.htm;
+		    }
+
+		    location ~ \.pl$ {
+		        gzip off;
+		        include /etc/nginx/fastcgi_params;
+		        fastcgi_pass  127.0.0.1:8999;
+		        fastcgi_index index.pl;
+		        fastcgi_param SCRIPT_FILENAME /srv/www/www.mywebsite.com/public_html$fastcgi_script_name;
+		    }
+		}
+
+**NOTE**: If you choosed the TCP config, you have to modify the fcgiwrap init script:
+
+File: **/etc/init.d/fcgiwrap**
+
+	    # FCGI_APP Variables
+	    FCGI_CHILDREN="1"
+	    FCGI_SOCKET="/var/run/$NAME.socket"
+	    FCGI_USER="www-data"
+	    FCGI_GROUP="www-data"
+
+To this:
+
+	    # FCGI_APP Variables
+	    FCGI_CHILDREN="1"
+	    FCGI_PORT="8999"
+	    FCGI_ADDR="127.0.0.1"
+	    FCGI_USER="www-data"
+	    FCGI_GROUP="www-data"
+
+###Enable the site###
+
+		cd /etc/nginx/sites-enabled/
+		ln -s /etc/nginx/sites-available/www.example.com
+
+		/etc/init.d/fcgiwrap start
+		/etc/init.d/nginx start
+
+
+TEST YOUR CONFIGURATION
+=======================
+
+Create a file test.pl in **/srv/www/www.example.com/public_html/**:
+
+		#!/usr/bin/perl
+
+		print "Content-type:text/html\n\n";
+		print <<EndOfHTML;
+		<html><head><title>Perl Environment Variables</title></head>
+		<body>
+		<h1>Perl Environment Variables</h1>
+		EndOfHTML
+
+		foreach $key (sort(keys %ENV)) {
+		    print "$key = $ENV{$key}<br>\n";
+		}
+
+		print "</body></html>";
+
+Make it executable:
+
+		chmod a+x /srv/www/www.example.com/public_html/test.pl
+
+
+When you visit http://www.example.com/test.pl in your browser, your Perl environment variables should be shown. Congratulations, you’ve configured the nginx web server to use Perl with FastCGI for dynamic content!
