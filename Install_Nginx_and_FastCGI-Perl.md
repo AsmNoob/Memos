@@ -207,7 +207,7 @@ To this:
 ###Enable the site###
 
 		cd /etc/nginx/sites-enabled/
-		ln -s /etc/nginx/sites-available/www.example.com
+		ln -s /etc/nginx/sites-available/www.mywebsite.com
 
 		/etc/init.d/fcgiwrap start
 		/etc/init.d/nginx start
@@ -216,7 +216,7 @@ To this:
 TEST YOUR CONFIGURATION
 =======================
 
-Create a file test.pl in **/srv/www/www.example.com/public_html/**:
+Create a file test.pl in **/srv/www/www.mywebsite.com/public_html/**:
 
 		#!/usr/bin/perl
 
@@ -235,7 +235,7 @@ Create a file test.pl in **/srv/www/www.example.com/public_html/**:
 
 Make it executable:
 
-		chmod a+x /srv/www/www.example.com/public_html/test.pl
+		chmod a+x /srv/www/www.mywebsite.com/public_html/test.pl
 
 
-When you visit http://www.example.com/test.pl in your browser, your Perl environment variables should be shown. Congratulations, you’ve configured the nginx web server to use Perl with FastCGI for dynamic content!
+When you visit http://www.mywebsite.com/test.pl in your browser, your Perl environment variables should be shown. Congratulations, you’ve configured the nginx web server to use Perl with FastCGI for dynamic content!
