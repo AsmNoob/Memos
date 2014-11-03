@@ -10,7 +10,7 @@ Intro
 - **TCP**: Transmission control protocol [TCP](http://en.wikipedia.org/wiki/Transmission_Control_Protocol)
 - **UDP**: User Datagram protocol [UDP](http://en.wikipedia.org/wiki/User_Datagram_Protocol)
 - **VPS**: Virtual private server, it's a virtual machine running that is provided to internet user with almost the same specs as a physical server.[VPS](http://en.wikipedia.org/wiki/User_Datagram_Protocol)
-- **Perl**: Perl is a family of high-level, general-purpose, interpreted, dynamic programming languages. Borrows its feature from other programming languages like C, Shell Scripting, Awk and Sed.
+- **Perl**: Perl is a family of high-level, general-purpose, interpreted, dynamic programming languages. Borrows its feature from other programming languages like C, Shell Scripting, Awk and Sed.[]
 - **Sql**: It's a programming language designed for managing data.[SQL](http://en.wikipedia.org/wiki/SQL)
 - **Certificate**: [Graphical explanation](http://upload.wikimedia.org/wikipedia/commons/9/96/Usage-of-Digital-Certificate.svg)
 
