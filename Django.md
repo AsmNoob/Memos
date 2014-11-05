@@ -49,6 +49,22 @@ Creating models
 
 ### Applications
 
+To create your app run the following command:
+
+		python manage.py startapp yourAppsName (usually polls)
+
+It creates this: 
+
+		YourAppsName/
+		    __init__.py
+		    admin.py
+		    migrations/
+		        __init__.py
+		    models.py
+		    tests.py
+		    views.py
+
+**Writing a Database web app = Define the models**
 
 
 
