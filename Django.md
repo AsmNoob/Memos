@@ -65,7 +65,38 @@ It creates this:
 		    views.py
 
 **Writing a Database web app = Define the models**
+**Models** = Source of your data about your data, the objective is to define your data model in one place and automatically derive things from it.
+**Migrations** = History of your models, that django uses to update your database to match the current models.
 
+To create models, simply edit the models.py in your application directory:
+
+*Each model is represented by a class that subclasses django.db.models.Model. Each model has a number of class variables, each of which represents a database field in the model.*
+
+*Each field is represented by an instance of the Field class, it tells django the type of Data it holds.*
+
+		from django.db import models
+
+
+		class Question(models.Model):
+		    question_text = models.CharField(max_length=200)
+		    pub_date = models.DateTimeField('date published')
+
+
+		class Choice(models.Model):
+		    question = models.ForeignKey(Question)
+		    choice_text = models.CharField(max_length=200)
+		    votes = models.IntegerField(default=0)
+
+
+**How to activate models**:
+
+*This code allows to create a database schema and an API to access Question and Choice objects*
+
+**Note**: We have to add it first to our INSTALLED_APPS () so Django updates it, simply add **'yourAppsName'.
+
+To update the models, run the following command:
+
+		python manage.py makemigrations yourAppsName
 
 
 
