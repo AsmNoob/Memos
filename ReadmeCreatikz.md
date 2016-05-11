@@ -2,7 +2,7 @@
 
 ## Prérequis ##
 
-Pour pouvoir dÃ©marrer le projet il est nÃ©cessaire d'installer les programmes
+Pour pouvoir démarrer le projet il est nécessaire d'installer les programmes
 suivant:
 
 * Java 8
@@ -10,7 +10,7 @@ suivant:
 * Apache Tomcat v8.0.33
 * mysql-5.6
 
-Nous considérons que vous utilisez un OS basÃ© sur Unix.
+Nous considérons que vous utilisez un OS basé sur Unix.
 
 #### Java
 
@@ -59,7 +59,7 @@ sudo apt-get install gradle
 
 #### Tomcat
 
-Pour Apache Tomcat tÃ©lÃ©charger 
+Pour Apache Tomcat télécharger 
 [tomcat](http://apache.cu.be/tomcat/tomcat-8/v8.0.33/bin/apache-tomcat-8.0.33.zip)
 et dézippez-le.
 
